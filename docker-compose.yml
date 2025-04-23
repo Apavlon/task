@@ -12,7 +12,7 @@ services:
       - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
-      - DJANGO_SECRET_KEY=your-secret-key
+      - DJANGO_SECRET_KEY=TE2IFwVh_PMartfZ0m85NoAuaIfCiW6G-i56MWilr0M
       - DEBUG=True
       - ALLOWED_HOSTS=localhost,127.0.0.1,task.onrender.com
       - CSRF_TRUSTED_ORIGINS=https://task.onrender.com
@@ -26,9 +26,9 @@ services:
   db:
     image: postgres:15
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=store
+      - POSTGRES_USER=my_dbmy_db_user
+      - POSTGRES_PASSWORD=Mg349gD5mlqOsRuVEzzajnDhPiSz2hdI
+      - POSTGRES_DB=my_db_my_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
