@@ -16,7 +16,7 @@ services:
       - DEBUG=True
       - ALLOWED_HOSTS=localhost,127.0.0.1,task.onrender.com
       - CSRF_TRUSTED_ORIGINS=https://task.onrender.com
-      - DATABASE_URL=postgresql://user:password@db:5432/store
+      - DATABASE_URL=postgresql://user:Mg349gD5mlqOsRuVEzzajnDhPiSz2hdI:5432/my_dbmy_db
       - REDIS_URL=redis://redis:6379/0
     depends_on:
       - db
@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
 
   db:
-    image: postgres:15
+    image: postgres:16
     environment:
       - POSTGRES_USER=my_dbmy_db_user
       - POSTGRES_PASSWORD=Mg349gD5mlqOsRuVEzzajnDhPiSz2hdI
@@ -45,4 +45,6 @@ services:
 
 volumes:
   postgres_data:
-  redis_data:
+  valkey_data:
+ 
+

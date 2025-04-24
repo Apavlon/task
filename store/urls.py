@@ -3,11 +3,11 @@ from django.urls import path, include
 from rest_framework import routers
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.views.generic import TemplateView
 from shop.views import (
     UserViewSet, ProfileViewSet, CategoryViewSet,
-    ProductViewSet, OrderViewSet, OrderItemViewSet
+    ProductViewSet, OrderViewSet, OrderItemViewSet, NameSearchView
 )
-from django.views.generic import TemplateView
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -32,4 +32,5 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger',
          cache_timeout=0), name='schema-swagger-ui'),
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
+    path('api/v1/name/names/', NameSearchView.as_view(), name='name-search'),
 ]
