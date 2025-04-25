@@ -1,3 +1,5 @@
+from django.views import View
+from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -52,3 +54,8 @@ class OrderViewSet(viewsets.ModelViewSet):
 class OrderItemViewSet(viewsets.ModelViewSet):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
+
+
+class NameSearchView(View):
+    def get(self, request):
+        return HttpResponse("Hello from NameSearchView")
