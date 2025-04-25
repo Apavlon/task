@@ -26,11 +26,23 @@ schema_view = get_schema_view(
     public=True,
 )
 
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('api/', include(router.urls)),
+#     path('swagger/', schema_view.with_ui('swagger',
+#          cache_timeout=0), name='schema-swagger-ui'),
+#     path('', TemplateView.as_view(template_name='index.html'), name='home'),
+#     path('', NameSearchView.as_view(), name='name-search'),
+# ]
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls')),  # <--- добавлено
     path('swagger/', schema_view.with_ui('swagger',
          cache_timeout=0), name='schema-swagger-ui'),
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
-    path('', NameSearchView.as_view(), name='name-search'),
+    path('search/', NameSearchView.as_view(), name='name-search'),
 ]
