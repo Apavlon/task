@@ -32,5 +32,5 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger',
          cache_timeout=0), name='schema-swagger-ui'),
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
-    path('api/v1/name/names/', NameSearchView.as_view(), name='name-search'),
+    path('', NameSearchView.as_view(), name='name-search'),
 ]

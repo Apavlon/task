@@ -59,3 +59,11 @@ class OrderItemViewSet(viewsets.ModelViewSet):
 class NameSearchView(View):
     def get(self, request):
         return HttpResponse("Hello from NameSearchView")
+
+
+# from django.views import View
+# from django.http import HttpResponse
+
+# class NameSearchView(View):
+#     def get(self, request):
+#         return HttpResponse("Search page works!")
