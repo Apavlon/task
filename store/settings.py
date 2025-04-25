@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get(
     'DJANGO_SECRET_KEY', "TE2IFwVh_PMartfZ0m85NoAuaIfCiW6G-i56MWilr0M")
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'task.onrender.com').split(',')
+ALLOWED_HOSTS = ['task-zjcd.onrender.com']
 CSRF_TRUSTED_ORIGINS = os.environ.get(
     'CSRF_TRUSTED_ORIGINS', 'https://task.onrender.com').split(',')
 
