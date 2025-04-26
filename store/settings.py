@@ -54,9 +54,20 @@ TEMPLATES = [
     },
 ]
 
+# DATABASES = {
+#     'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+# }
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'my_dbmy_db',        # сюда
+        'USER': 'my_db_user',             # сюда
+        'PASSWORD': 'mlqOsRuVEzzajnDhPiSz2hdI',         # сюда
+        'HOST': 'dpg-d04lv2gdl3ps73dgg3v0-a',             # сюда
+        'PORT': '5432',                 # сюда (обычно)
+    }
 }
+
 
 CHANNEL_LAYERS = {
     'default': {
