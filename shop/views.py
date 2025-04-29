@@ -1,6 +1,7 @@
 from django.views import View
 from django.http import HttpResponse
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
@@ -14,6 +15,7 @@ from .serializers import (
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]  # Разрешить доступ без авторизации
 
     @swagger_auto_schema(operation_description="Create a new user")
     def create(self, request, *args, **kwargs):

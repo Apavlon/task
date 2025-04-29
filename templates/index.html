@@ -39,22 +39,42 @@
         <div id="notifications"></div>
     </div>
     <script>
-        const ws = new WebSocket('wss://' + window.location.host + '/ws/users/');
+        const ws = new WebSocket('wss://' + window.location.host + '/ws/notifications/');
         ws.onmessage = function(event) {
             const data = JSON.parse(event.data);
             const notifications = document.getElementById('notifications');
-            notifications.innerHTML += <p>${data.message}</p>;
+            notifications.innerHTML += `<p>${data.message}</p>`;
             notifications.scrollTop = notifications.scrollHeight;
         };
+        // async function createUser() {
+        //     const username = document.getElementById('username').value;
+        //     const email = document.getElementById('email').value;
+        //     const response = await fetch('/api/users/', {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({ username, email })
+        //     });
+        //     alert('User created');
+        // }
         async function createUser() {
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
-            const response = await fetch('/api/users/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, email })
-            });
-            alert('User created');
+            try {
+                const response = await fetch('/api/users/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    alert('User created successfully');
+                    getUsers();  // Обновляем список пользователей
+                } else {
+                    alert('Error creating user: ' + (data.detail || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
         }
         async function getUsers() {
             const response = await fetch('/api/users/');

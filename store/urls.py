@@ -45,4 +45,6 @@ urlpatterns = [
          cache_timeout=0), name='schema-swagger-ui'),
     path('', TemplateView.as_view(template_name='index.html'), name='home'),
     path('search/', NameSearchView.as_view(), name='name-search'),
+    # Встроенные маршруты для авторизации
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
