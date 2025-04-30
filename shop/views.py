@@ -6,12 +6,16 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from .models import User, Profile, Category, Product, Order, OrderItem
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from .serializers import (
     UserSerializer, ProfileSerializer, CategorySerializer,
     ProductSerializer, OrderSerializer, OrderItemSerializer
 )
+from django.contrib.auth.models import User as AuthUser
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -20,7 +24,16 @@ class UserViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(operation_description="Create a new user")
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
-        # Send WebSocket notification
+        username = request.data.get('username')
+        email = request.data.get('email')
+        if username and email:
+            auth_user, created = AuthUser.objects.get_or_create(
+                username=username,
+                defaults={'email': email, 'is_staff': True}
+            )
+            if created:
+                auth_user.set_password('defaultpassword')
+                auth_user.save()
         from channels.layers import get_channel_layer
         from asgiref.sync import async_to_sync
         channel_layer = get_channel_layer()
@@ -61,11 +74,3 @@ class OrderItemViewSet(viewsets.ModelViewSet):
 class NameSearchView(View):
     def get(self, request):
         return HttpResponse("Hello from NameSearchView")
-
-
-# from django.views import View
-# from django.http import HttpResponse
-
-# class NameSearchView(View):
-#     def get(self, request):
-#         return HttpResponse("Search page works!")
