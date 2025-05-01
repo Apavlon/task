@@ -99,14 +99,13 @@
                 const response = await fetch('http://task-zjcd.onrender.com/api/products/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, price, categories: [] })
+                    body: JSON.stringify({ name, price })
                 });
                 const data = await response.json();
                 if (!response.ok) {
                     throw new Error(data.detail || `HTTP error! Status: ${response.status}`);
                 }
                 alert('Product created successfully: ' + JSON.stringify(data));
-                // Обновляем список продуктов после успешного создания
                 getProducts();
             } catch (error) {
                 console.error('Error creating product:', error);
@@ -115,9 +114,18 @@
         }
 
         async function getProducts() {
-            const response = await fetch('/api/products/');
-            const products = await response.json();
-            document.getElementById('products').innerHTML = products.map(p => `<p>${p.name} ($${p.price})</p>`).join('');
+            try {
+                const response = await fetch('http://task-zjcd.onrender.com/api/products/');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const products = await response.json();
+                console.log('Products:', products);
+                document.getElementById('products').innerHTML = products.map(p => `<p>${p.name} ($${p.price})</p>`).join('');
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                alert('Error fetching products: ' + error.message);
+            }
         }
     </script>
 </body>

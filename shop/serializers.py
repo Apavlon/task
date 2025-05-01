@@ -23,12 +23,27 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+# class ProductSerializer(serializers.ModelSerializer):
+#     categories = CategorySerializer(many=True)
+
+#     class Meta:
+#         model = Product
+#         fields = ['id', 'name', 'price', 'categories']
+
 class ProductSerializer(serializers.ModelSerializer):
-    categories = CategorySerializer(many=True)
+    # Поле categories для чтения (отображения)
+    categories = CategorySerializer(many=True, read_only=True)
+    # Поле для записи (при создании/обновлении)
+    category_ids = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(),
+        source='categories',
+        many=True,
+        required=False  # Делаем необязательным
+    )
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'price', 'categories']
+        fields = ['id', 'name', 'price', 'categories', 'category_ids']
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
