@@ -81,16 +81,39 @@
             const users = await response.json();
             document.getElementById('users').innerHTML = users.map(u => `<p>${u.username} (${u.email})</p>`).join('');
         }
+        // async function createProduct() {
+        //     const name = document.getElementById('productName').value;
+        //     const price = document.getElementById('productPrice').value;
+        //     const response = await fetch('/api/products/', {
+        //         method: 'POST',
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify({ name, price, categories: [] })
+        //     });
+        //     alert('Product created');
+        // }
+
         async function createProduct() {
             const name = document.getElementById('productName').value;
             const price = document.getElementById('productPrice').value;
-            const response = await fetch('/api/products/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, price, categories: [] })
-            });
-            alert('Product created');
+            try {
+                const response = await fetch('http://task-zjcd.onrender.com/api/products/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, price, categories: [] })
+                });
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.detail || `HTTP error! Status: ${response.status}`);
+                }
+                alert('Product created successfully: ' + JSON.stringify(data));
+                // Обновляем список продуктов после успешного создания
+                getProducts();
+            } catch (error) {
+                console.error('Error creating product:', error);
+                alert('Error creating product: ' + error.message);
+            }
         }
+
         async function getProducts() {
             const response = await fetch('/api/products/');
             const products = await response.json();
